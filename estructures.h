@@ -17,7 +17,7 @@ typedef struct User{
     char surname[MAX_LENGHT];
     char gmail[MAX_LENGHT];
     char poblacio[MAX_LENGHT];
-    int sexe;
+    char sexe;
     int edat;
     char gustos[GUSTOS][MAX_LENGHT];
 };

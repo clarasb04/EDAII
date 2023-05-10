@@ -2,30 +2,7 @@
 #include "estructures.h"
 #include "main.h"
 #include "string.h"
-
-
-void new_user(){
-    int edat, MAX=30, a;
-    char nom[MAX], cog[MAX], sobrenom[MAX], mail[MAX], poblacio[MAX], gust[MAX], sexe;
-    printf("Introdueix les següents dades separades en espais: \nnom cognom sobrenom gmail població edat sexe(M/F/A)");
-    a = fscanf(stdin,"%s %s %s %s %s %d %c", nom, cog, sobrenom, mail, poblacio, edat, sexe);
-    if (a!=7){
-        printf("No has introduit correctament les dades, usuari no creat");
-        return;
-    } else{
-        struct User provnou;
-        strcpy(provnou.sobrenom, sobrenom);
-        strcpy(provnou.name, nom);
-        strcpy(provnou.surname, cog);
-        strcpy(provnou.gmail, mail);
-        strcpy(provnou.gustos, gust);
-        strcpy(provnou.poblacio, poblacio);
-        provnou.edat = edat;
-        provnou.sexe = sexe;
-        //crear usuari
-    }
-     //podriem implementar un diccionari per mirar la gent q és de la mateixa població
-}
+#include "stdlib.h"
 
 void interactuar(){
     int n;
