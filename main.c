@@ -51,27 +51,9 @@ int printmenu(){
     fscanf(stdin,"%d", n);
     return n;
 }
-void crearllista(){
-           //crear la llista dinamica per anar afegint els usuaris
-    FILE* f= fopen("usuaris", "r");
-    int res, edat, sex, cont;
-    char sob[MAX_LENGHT], nom[MAX_LENGHT], surn[MAX_LENGHT], gmail[MAX_LENGHT], pob[MAX_LENGHT], gust[GUSTOS][MAX_LENGHT];
-    res = fscanf(f, "%s %s %s %s %s %d %d %s", sob, nom, surn, gmail, pob, sex, edat, gust); //problema en detectar gustos
-    while(res==8){
-        struct User usuariprov;
-        strcpy(usuariprov.sobrenom, sob);
-        strcpy(usuariprov.name, nom);
-        strcpy(usuariprov.surname, surn);
-        strcpy(usuariprov.gmail, gmail);
-        strcpy(usuariprov.gustos, gust);
-        strcpy(usuariprov.poblacio, pob);
-        usuariprov.edat = edat;
-        usuariprov.sexe = sex;
-        //reservar espai i afegir l'usuari a la llista
-        res = fscanf(f, "%s %s %s %s %s %d %d %s", sob, nom, surn, gmail, pob, sex, edat, gust);
-    }
-}
+
 int main() {
+    struct User* list;
     printf("hola !\n");
     menu();
     return 0;
