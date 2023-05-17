@@ -1,4 +1,5 @@
 #include "estructures.h"
+
 #include <stdio.h>
 #include "main.h"
 #include "string.h"
@@ -12,7 +13,7 @@ void new_user(){
         printf("No has introduit correctament les dades, usuari no creat");
         return;
     } else{
-        struct User provnou;
+        user provnou;
         strcpy(provnou.sobrenom, sobrenom);
         strcpy(provnou.name, nom);
         strcpy(provnou.surname, cog);
@@ -26,21 +27,16 @@ void new_user(){
     //falta afegir l usuari al fitxer i a la llista
 }
 
-void afegir_usuaris_a_la_llista(User* u, llista_usuaris* list){
-    usuaris_llista* node = (usuaris_llista *) malloc(sizeof(usuaris_llista));
-    node->user = u;
-    node->next = NULL;
+void afegir_usuaris_a_la_llista(user* u, user* list){
+    if (list == NULL){
 
-    if (list->first == NULL){
-        list->first = node;
-        list->last = node;
-        node->prev = NULL;
     }
+
 
 }
 
 
-void crear_gustos(User* u){ //que retornem?
+void crear_gustos(user* u){ //que retornem?
     int n;
     printf("Respon les següents preguntes per saber els teus gustos: [0] fals o [1] cert");
     printf("T'agraden els nois?");
@@ -60,15 +56,15 @@ void crear_gustos(User* u){ //que retornem?
     u->gustos[4]=n;
 }
 
-void crearllista(struct User* list){
-    list = (struct User*) malloc(sizeof(struct User));
+
+void crearllista(){
+    user* list = (struct User*) malloc(sizeof(user));
     FILE* f= fopen("usuaris", "r");
-    int res, edat, sex, gust, cont=0;
+    int res, edat, sex, gust1, gust2, gust3, gust4, gust5, cont=0;
     char sob[MAX_LENGHT], nom[MAX_LENGHT], surn[MAX_LENGHT], gmail[MAX_LENGHT], pob[MAX_LENGHT];
-    res = fscanf(f, "%s %s %s %s %s %d %d %s", sob, nom, surn, gmail, pob, sex, edat, &gust); //problema en detectar gustos
-    while(res==8){
-        struct User usuariprov;
-        cont++;
+    res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5); //problema en detectar gustos
+    while(res==12){
+        user usuariprov;
         strcpy(usuariprov.sobrenom, sob);
         strcpy(usuariprov.name, nom);
         strcpy(usuariprov.surname, surn);
@@ -78,8 +74,10 @@ void crearllista(struct User* list){
         usuariprov.edat = edat;
         usuariprov.sexe = sex;
         //reservar espai i afegir l'usuari a la llista
-        list = (struct User*) realloc(list, cont*sizeof(struct User*));
-        list[cont-1] = usuariprov;
-        res = fscanf(f, "%s %s %s %s %s %d %d %s", sob, nom, surn, gmail, pob, sex, edat, gust);
+        list = (struct User*) realloc(list, (cont+1)*sizeof(struct User*));
+        list[cont] = usuariprov;
+        cont++;
+        res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5);
     }
 }
+

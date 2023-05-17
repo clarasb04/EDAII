@@ -1,17 +1,13 @@
-//
-// Created by clara on 05/05/2023.
-//
+
 
 #ifndef EDAII_ESTRUCTURES_H
 #define EDAII_ESTRUCTURES_H
+
 #define MAX_LENGHT 30
 #define GUSTOS 5
-#endif //EDAII_ESTRUCTURES_H
 #include <stdlib.h>
 
-
-
-typedef struct{
+typedef struct User {
     char sobrenom[MAX_LENGHT];
     char name[MAX_LENGHT];
     char surname[MAX_LENGHT];
@@ -20,8 +16,10 @@ typedef struct{
     char sexe;
     int edat;
     int gustos[5];
-}User;
+}user;
 
+
+/*
 typedef struct {
     struct User* user;
     struct list_nodes* next;
@@ -33,6 +31,6 @@ typedef struct{
     usuaris_llista* first;
     usuaris_llista* last;
 }llista_usuaris;
+*/
 
-
-
+#endif //EDAII_ESTRUCTURES_H

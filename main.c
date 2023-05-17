@@ -3,6 +3,7 @@
 #include "main.h"
 #include "string.h"
 #include "stdlib.h"
+#include "usuari.c"
 
 void interactuar(){
     int n;
@@ -53,7 +54,7 @@ int printmenu(){
 }
 
 int main() {
-    struct User* list;
+    crearllista();
     printf("hola !\n");
     menu();
     return 0;
