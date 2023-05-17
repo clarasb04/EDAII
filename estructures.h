@@ -11,7 +11,7 @@
 
 
 
-typedef struct User{
+typedef struct{
     char sobrenom[MAX_LENGHT];
     char name[MAX_LENGHT];
     char surname[MAX_LENGHT];
@@ -19,20 +19,20 @@ typedef struct User{
     char poblacio[MAX_LENGHT];
     char sexe;
     int edat;
-    char gustos[GUSTOS][MAX_LENGHT];
-};
+    int gustos[5];
+}User;
 
-typedef struct list_nodes{
+typedef struct {
     struct User* user;
     struct list_nodes* next;
-    struct list_nodes* last;
-}list_nodes;
+    struct list_nodes* prev;
+}usuaris_llista;
 
-typedef struct llista_usuaris{
+typedef struct{
     int size;
-    list_nodes* first;
-    list_nodes* last;
-};
+    usuaris_llista* first;
+    usuaris_llista* last;
+}llista_usuaris;
 
 
 

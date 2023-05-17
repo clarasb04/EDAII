@@ -20,12 +20,27 @@ void new_user(){
         strcpy(provnou.poblacio, poblacio);
         provnou.edat = edat;
         provnou.sexe = sexe;
-        //provnou.gustos = crear_gustos(provnou);
+        crear_gustos(provnou);
     }
     //podriem implementar un diccionari per mirar la gent q és de la mateixa població
     //falta afegir l usuari al fitxer i a la llista
 }
-int crear_gustos(User u){ //que retornem?
+
+void afegir_usuaris_a_la_llista(User* u, llista_usuaris* list){
+    usuaris_llista* node = (usuaris_llista *) malloc(sizeof(usuaris_llista));
+    node->user = u;
+    node->next = NULL;
+
+    if (list->first == NULL){
+        list->first = node;
+        list->last = node;
+        node->prev = NULL;
+    }
+
+}
+
+
+void crear_gustos(User* u){ //que retornem?
     int n;
     printf("Respon les següents preguntes per saber els teus gustos: [0] fals o [1] cert");
     printf("T'agraden els nois?");
@@ -66,6 +81,5 @@ void crearllista(struct User* list){
         list = (struct User*) realloc(list, cont*sizeof(struct User*));
         list[cont-1] = usuariprov;
         res = fscanf(f, "%s %s %s %s %s %d %d %s", sob, nom, surn, gmail, pob, sex, edat, gust);
-
     }
 }
