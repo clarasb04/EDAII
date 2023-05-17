@@ -30,19 +30,19 @@ int crear_gustos(User u){ //que retornem?
     printf("Respon les següents preguntes per saber els teus gustos: [0] fals o [1] cert");
     printf("T'agraden els nois?");
     fscanf(stdin,"%d", n);
-    u.gustos[0]=n;
+    u->gustos[0]=n;
     printf("T'agraden les noies?");
     fscanf(stdin,"%d", n);
-    u.gustos[1]=n;
+    u->gustos[1]=n;
     printf("T'importa que no sigui de la teva edat?");
     fscanf(stdin,"%d", n);
-    u.gustos[2]=n;
+    u->gustos[2]=n;
     printf("T'agrada el futbol?");
     fscanf(stdin,"%d", n);
-    u.gustos[3]=n;
+    u->gustos[3]=n;
     printf("Toques algun instrument?");
     fscanf(stdin,"%d", n);
-    u.gustos[4]=n;
+    u->gustos[4]=n;
 }
 
 void crearllista(struct User* list){

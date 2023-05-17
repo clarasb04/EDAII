@@ -55,6 +55,12 @@ build CMakeFiles/EDAII.dir/main.c.obj: C_COMPILER__EDAII_Debug C$:/Users/clara/O
   OBJECT_DIR = CMakeFiles\EDAII.dir
   OBJECT_FILE_DIR = CMakeFiles\EDAII.dir
 
+build CMakeFiles/EDAII.dir/usuari.c.obj: C_COMPILER__EDAII_Debug C$:/Users/clara/OneDrive/Documentos/UNI/3r$ trimstres/EDAII/usuari.c || cmake_object_order_depends_target_EDAII
+  DEP_FILE = CMakeFiles\EDAII.dir\usuari.c.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu11
+  OBJECT_DIR = CMakeFiles\EDAII.dir
+  OBJECT_FILE_DIR = CMakeFiles\EDAII.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target EDAII
@@ -63,7 +69,7 @@ build CMakeFiles/EDAII.dir/main.c.obj: C_COMPILER__EDAII_Debug C$:/Users/clara/O
 #############################################
 # Link the executable EDAII.exe
 
-build EDAII.exe: C_EXECUTABLE_LINKER__EDAII_Debug CMakeFiles/EDAII.dir/main.c.obj
+build EDAII.exe: C_EXECUTABLE_LINKER__EDAII_Debug CMakeFiles/EDAII.dir/main.c.obj CMakeFiles/EDAII.dir/usuari.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\EDAII.dir
