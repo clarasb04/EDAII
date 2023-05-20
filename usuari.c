@@ -57,10 +57,15 @@ void crear_gustos(user* u){ //que retornem?
 }
 
 
-void crearllista(){
-    user* list = (struct User*) malloc(sizeof(user));
+
+
+
+
+void crearllista(llista_usuaris* list){
+
     FILE* f= fopen("usuaris", "r");
     int res, edat, sex, gust1, gust2, gust3, gust4, gust5, cont=0;
+    usuaris_llista * anterior = NULL;
     char sob[MAX_LENGHT], nom[MAX_LENGHT], surn[MAX_LENGHT], gmail[MAX_LENGHT], pob[MAX_LENGHT];
     res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5); //problema en detectar gustos
     while(res==12){
@@ -74,10 +79,17 @@ void crearllista(){
         usuariprov.edat = edat;
         usuariprov.sexe = sex;
         //reservar espai i afegir l'usuari a la llista
-        list = (struct User*) realloc(list, (cont+1)*sizeof(struct User*));
-        list[cont] = usuariprov;
+
+        usuaris_llista us;
+        us.user = &usuariprov;
+        us.prev = anterior;
+        us.next = NULL;
+        if(anterior != NULL){
+            anterior->next = &usuariprov;
+        }
+        anterior = &usuariprov;
         cont++;
-        res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5);
+        res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %d", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5);
     }
 }
 

@@ -1,3 +1,3 @@
-C:/Users/clara/OneDrive/Documentos/UNI/3r trimstres/EDAII/cmake-build-debug/CMakeFiles/EDAII.dir
-C:/Users/clara/OneDrive/Documentos/UNI/3r trimstres/EDAII/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/clara/OneDrive/Documentos/UNI/3r trimstres/EDAII/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Marc/Documents/3r_trimestre/EDA II/EDAII/cmake-build-debug/CMakeFiles/EDAII.dir
+C:/Users/Marc/Documents/3r_trimestre/EDA II/EDAII/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Marc/Documents/3r_trimestre/EDA II/EDAII/cmake-build-debug/CMakeFiles/rebuild_cache.dir

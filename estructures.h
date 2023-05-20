@@ -19,11 +19,11 @@ typedef struct User {
 }user;
 
 
-/*
+
 typedef struct {
     struct User* user;
-    struct list_nodes* next;
-    struct list_nodes* prev;
+    struct usuaris_llista* next;
+    struct usuaris_llista* prev;
 }usuaris_llista;
 
 typedef struct{

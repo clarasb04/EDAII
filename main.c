@@ -3,7 +3,6 @@
 #include "main.h"
 #include "string.h"
 #include "stdlib.h"
-#include "usuari.c"
 
 void interactuar(){
     int n;
@@ -54,9 +53,10 @@ int printmenu(){
 }
 
 int main() {
-    crearllista();
+    llista_usuaris* list;
+    crear_llista(list);
     printf("hola !\n");
     menu();
-    return 0;
+    return 1;
 
 }

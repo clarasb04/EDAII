@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/clara/OneDrive/Documentos/UNI/3r trimstres/EDAII
+# Install script for directory: C:/Users/Marc/Documents/3r_trimestre/EDA II/EDAII
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/clara/OneDrive/Documentos/UNI/3r trimstres/EDAII/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Marc/Documents/3r_trimestre/EDA II/EDAII/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
