@@ -27,12 +27,22 @@ void new_user(){
     //falta afegir l usuari al fitxer i a la llista
 }
 
-void afegir_usuaris_a_la_llista(user* u, user* list){
-    if (list == NULL){
+void afegir_usuaris_a_la_llista(llista_usuaris* list, user* u){
+    usuaris_llista* node = (usuaris_llista*) malloc(sizeof(usuaris_llista));
+    node->user = u;
+    node->next = NULL;
 
+    if (list->first == NULL){
+        list->first = node;
+        list->last = node;
+        node->prev = NULL;
     }
-
-
+    else{
+        list->last->next = node;
+        node->prev = list->last;
+        list->last = node;
+    }
+    list->size++;
 }
 
 
@@ -93,3 +103,14 @@ void crearllista(llista_usuaris* list){
     }
 }
 
+usuaris_llista* cerca_usuari(llista_usuaris* llista, int id) {
+    usuaris_llista* current = llista->first;
+    while (current != NULL) {
+        if (current->user->sobrenom == id) {
+            interactuar();
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;  // L'usuari no ha estat trobat
+}

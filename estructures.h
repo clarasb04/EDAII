@@ -31,6 +31,6 @@ typedef struct{
     usuaris_llista* first;
     usuaris_llista* last;
 }llista_usuaris;
-*/
+
 
 #endif //EDAII_ESTRUCTURES_H
