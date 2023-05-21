@@ -11,7 +11,7 @@ void new_user(){
     a = fscanf(stdin,"%s %s %s %s %s %d %c", nom, cog, sobrenom, mail, poblacio, edat, sexe);
     if (a!=7){
         printf("No has introduit correctament les dades, usuari no creat");
-        return;
+        menu();
     } else{
         user provnou;
         strcpy(provnou.sobrenom, sobrenom);
@@ -22,6 +22,8 @@ void new_user(){
         provnou.edat = edat;
         provnou.sexe = sexe;
         crear_gustos(provnou);
+
+
     }
     //podriem implementar un diccionari per mirar la gent q és de la mateixa població
     //falta afegir l usuari al fitxer i a la llista
@@ -44,7 +46,18 @@ void afegir_usuaris_a_la_llista(llista_usuaris* list, user* u){
     }
     list->size++;
 }
-
+void afegir_usuari(llista_usuaris* list, user* u){
+    //buscar la posició corresponent
+    usuaris_llista comp;
+    int check=0;
+    comp = *list->first;
+    while(check==0){
+        if(strcmp(comp.user->sobrenom, u->sobrenom)==2){
+            check=1;
+        }
+        comp = comp.next;
+    }
+}
 
 void crear_gustos(user* u){ //que retornem?
     int n;
@@ -95,7 +108,7 @@ void crearllista(llista_usuaris* list){
         us.prev = anterior;
         us.next = NULL;
         if(anterior != NULL){
-            anterior->next = &usuariprov;
+            anterior->next = &us;
         }
         anterior = &usuariprov;
         cont++;
@@ -113,4 +126,9 @@ usuaris_llista* cerca_usuari(llista_usuaris* llista, int id) {
         current = current->next;
     }
     return NULL;  // L'usuari no ha estat trobat
+}
+
+void omplir_text(FILE* f){
+    //anar passant pels usuaris i escriure'ls al doc
+
 }
