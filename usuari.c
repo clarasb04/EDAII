@@ -65,7 +65,7 @@ void afegir_usuari(llista_usuaris* list, User* u){
         if(strcmp(comp.user->sobrenom, u->sobrenom)==2){
             check=1;
         }
-        comp = comp.next;
+        //comp = comp.next;
     }
 }
 
@@ -111,10 +111,10 @@ llista_usuaris* llegir_fitxer(char* filename){
     //reservar espai i afegir l'usuari a la llista
 }
 
-usuaris_llista* cerca_usuari(llista_usuaris* llista, char id) {
+usuaris_llista* cerca_usuari(llista_usuaris* llista, char sobrenom) {
     usuaris_llista* current = llista->first;
     while (current != NULL) {
-        if (current->user->sobrenom == id) {
+        if (current->user->sobrenom == sobrenom) {
             interactuar();
             return current;
         }

@@ -9,7 +9,19 @@ void interactuar(){
     printf("Escull una opció: [1]. Enviar sol·licitud d'amistat \n [2]. Gestionar sol·licituds pendents \n [3]. Realitzar una publicació \n [4]. Tornar al menú principal");
     fscanf(stdin,"%d", n);
     if (n == 1){
-        enviar_s_amistat();
+        int a;
+        printf("Vols enviar una sol·licitud concreta [1] o et mostrem perfils que poden encaixar am el votre prefil[2]?");
+        fscanf(stdin, "%d", a);
+        if (a==1){
+            enviar_s_amistat();
+        }
+        else if (a==2){
+            enviar_s_amistat_aleatoria();
+        }
+        else{
+            printf("resposta incorrecta");
+            printmenu();
+        }
     }
     else if (n == 2){
         gestionar_s_pendents();

@@ -16,9 +16,10 @@ typedef struct User{
     char sexe;
     int edat;
     int gustos[5];
+    struct Queue_sol* cuasol;
 }User;
 
-
+//estructures per tots els usuaris de l'apliacacio
 
 typedef struct {
     struct User* user;
@@ -32,5 +33,12 @@ typedef struct{
     usuaris_llista* last;
 }llista_usuaris;
 
+//estructura solisituds d'amistats
+struct Queue_sol{
+    User* usuer_sol;
+    int head;
+    int tail;
+    int size;
+};
 
 #endif //EDAII_ESTRUCTURES_H
