@@ -4,35 +4,45 @@
 #include "main.h"
 #include "string.h"
 
-void new_user(){
-    int edat, a;
-    char nom[MAX_LENGHT], cog[MAX_LENGHT], sobrenom[MAX_LENGHT], mail[MAX_LENGHT], poblacio[MAX_LENGHT], sexe;
-    printf("Introdueix les següents dades separades en espais: \nnom cognom sobrenom gmail població edat sexe(M/F/A)");
-    a = fscanf(stdin,"%s %s %s %s %s %d %c", nom, cog, sobrenom, mail, poblacio, edat, sexe);
-    if (a!=7){
-        printf("No has introduit correctament les dades, usuari no creat");
-        menu();
-    } else{
-        user provnou;
-        strcpy(provnou.sobrenom, sobrenom);
-        strcpy(provnou.name, nom);
-        strcpy(provnou.surname, cog);
-        strcpy(provnou.gmail, mail);
-        strcpy(provnou.poblacio, poblacio);
-        provnou.edat = edat;
-        provnou.sexe = sexe;
-        crear_gustos(provnou);
+typedef struct User;
 
-
-    }
+User* new_user(){
+    User* user = (User*)malloc(sizeof(User));
+    printf("Introdueix el sobrenom: ");
+    scanf(" %s ", user->sobrenom);
+    printf("Introdueix el nom: ");
+    scanf(" %s ", user->name);
+    printf("Introdueix el cognom:");
+    scanf(" %s ", user->surname);
+    printf("Introdueix el correu de la univeristat: ");
+    scanf(" %s ", user->gmail);
+    printf("Introdueix la població: ");
+    scanf(" %s ", user->poblacio);
+    printf("Introdueix el sexe (M/F): ");
+    scanf(" %c ", &user->sexe);
+    printf("Introdueix l'edat: ");
+    scanf(" %d ", &user->edat);
+    printf("Contesta a les seqüents preguntes per a saber els teus gustos: ");
+    crear_gustos(&user);
+    printf("PERFECTE T'HAS REGISTRAT");
     //podriem implementar un diccionari per mirar la gent q és de la mateixa població
     //falta afegir l usuari al fitxer i a la llista
+    return user;
 }
 
-void afegir_usuaris_a_la_llista(llista_usuaris* list, user* u){
+llista_usuaris* init_list(){
+    llista_usuaris* llista = (llista_usuaris*) malloc(sizeof(usuaris_llista));
+    llista->size = 0;
+    llista->first = NULL;
+    llista->last = NULL;
+    return llista;
+}
+
+void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){
     usuaris_llista* node = (usuaris_llista*) malloc(sizeof(usuaris_llista));
     node->user = u;
     node->next = NULL;
+    node->prev = NULL;
 
     if (list->first == NULL){
         list->first = node;
@@ -46,7 +56,7 @@ void afegir_usuaris_a_la_llista(llista_usuaris* list, user* u){
     }
     list->size++;
 }
-void afegir_usuari(llista_usuaris* list, user* u){
+void afegir_usuari(llista_usuaris* list, User* u){
     //buscar la posició corresponent
     usuaris_llista comp;
     int check=0;
@@ -59,7 +69,7 @@ void afegir_usuari(llista_usuaris* list, user* u){
     }
 }
 
-void crear_gustos(user* u){ //que retornem?
+void crear_gustos(User* u){ //que retornem?
     int n;
     printf("Respon les següents preguntes per saber els teus gustos: [0] fals o [1] cert");
     printf("T'agraden els nois?");
@@ -81,42 +91,27 @@ void crear_gustos(user* u){ //que retornem?
 
 
 
-
-
-
-void crearllista(llista_usuaris* list){
-
-    FILE* f= fopen("usuaris", "r");
-    int res, edat, sex, gust1, gust2, gust3, gust4, gust5, cont=0;
-    usuaris_llista * anterior = NULL;
-    char sob[MAX_LENGHT], nom[MAX_LENGHT], surn[MAX_LENGHT], gmail[MAX_LENGHT], pob[MAX_LENGHT];
-    res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5); //problema en detectar gustos
-    while(res==12){
-        user usuariprov;
-        strcpy(usuariprov.sobrenom, sob);
-        strcpy(usuariprov.name, nom);
-        strcpy(usuariprov.surname, surn);
-        strcpy(usuariprov.gmail, gmail);
-        strcpy(usuariprov.poblacio, pob);
-        //usuariprov.gustos afegir gustos
-        usuariprov.edat = edat;
-        usuariprov.sexe = sex;
-        //reservar espai i afegir l'usuari a la llista
-
-        usuaris_llista us;
-        us.user = &usuariprov;
-        us.prev = anterior;
-        us.next = NULL;
-        if(anterior != NULL){
-            anterior->next = &us;
-        }
-        anterior = &usuariprov;
-        cont++;
-        res = fscanf(f, "%s %s %s %s %s %d %d %d %d %d %d %d", sob, nom, surn, gmail, pob, sex, edat, &gust1, &gust2, &gust3, &gust4, &gust5);
+llista_usuaris* llegir_fitxer(char* filename){
+    FILE* f= fopen(filename, "r");
+    if (f == NULL){
+        printf("No s'ha pogut entrar al fitxer");
+        return NULL;
     }
+    llista_usuaris* llista = init_list();
+    char linia_fitxer[100];
+    while (fgets(linia_fitxer, sizeof(linia_fitxer),f)){
+        User* user = (User*) malloc(sizeof(User));
+
+        sscanf(linia_fitxer, "%c %s %s %s %s %c %d %d %d %d %d", &user->sobrenom, user->name, user->surname, user->gmail, user->poblacio, &user->sexe, &user->edat, &user->gustos[0], &user->gustos[1], &user->gustos[2], &user->gustos[3], &user->gustos[4]);
+
+        afegir_usuaris_a_la_llista(llista, user);
+
+    }
+    fclose(f);
+    //reservar espai i afegir l'usuari a la llista
 }
 
-usuaris_llista* cerca_usuari(llista_usuaris* llista, int id) {
+usuaris_llista* cerca_usuari(llista_usuaris* llista, char id) {
     usuaris_llista* current = llista->first;
     while (current != NULL) {
         if (current->user->sobrenom == id) {
@@ -128,7 +123,22 @@ usuaris_llista* cerca_usuari(llista_usuaris* llista, int id) {
     return NULL;  // L'usuari no ha estat trobat
 }
 
-void omplir_text(FILE* f){
-    //anar passant pels usuaris i escriure'ls al doc
+void omplir_fitxer(char* filename, llista_usuaris* llista){
+    FILE* fp = fopen(filename, "w");
+    if (fp == NULL){
+        printf("No s'ha pogut obrir el fitxer");
+        return;
+    }
+    usuaris_llista* current = llista->first;
+    while(current != NULL){
+        fprintf(fp, "%c %s %s %s %s %c %d", current->user->sobrenom, current->user->name, current->user->surname, current->user->gmail, current->user->poblacio, current->user->sexe, current->user->edat);
+
+        for (int i = 0; i < 5; i++){
+            fprintf(fp, "%d", current->user->gustos[i]);
+        }
+        fprintf(fp, "\n");
+        current = current->next;
+    }
+    fclose(fp);
 
 }

@@ -7,7 +7,7 @@
 #define GUSTOS 5
 #include <stdlib.h>
 
-typedef struct User {
+typedef struct User{
     char sobrenom[MAX_LENGHT];
     char name[MAX_LENGHT];
     char surname[MAX_LENGHT];
@@ -16,7 +16,7 @@ typedef struct User {
     char sexe;
     int edat;
     int gustos[5];
-}user;
+}User;
 
 
 
