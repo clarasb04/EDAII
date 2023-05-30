@@ -7,10 +7,10 @@
 void interactuar(){
     int n;
     printf("Escull una opció: [1]. Enviar sol·licitud d'amistat \n [2]. Gestionar sol·licituds pendents \n [3]. Realitzar una publicació \n [4]. Tornar al menú principal");
-    fscanf(stdin,"%d", n);
+    scanf("%d", n);
     if (n == 1){
         int a;
-        printf("Vols enviar una sol·licitud concreta [1] o et mostrem perfils que poden encaixar am el votre prefil[2]?");
+        printf("Vols enviar una sol·licitud concreta [1] o et mostrem perfils que poden encaixar amb el votre prefil[2]?");
         fscanf(stdin, "%d", a);
         if (a==1){
             enviar_s_amistat();
@@ -60,13 +60,11 @@ void menu(){
 int printmenu(){
     int n;
     printf("Escolliu una opcio:\n [1]. Afegir usuari\n [2]. Listat d'usuaris\n [3]. Interactuar amb un usuari\n [4]. Sortir");
-    fscanf(stdin,"%d", n);
+    scanf("%d", n);
     return n;
 }
 
-int main() {
-    llista_usuaris* list;
-    crear_llista(list);
+int main(){
     printf("hola !\n");
     menu();
     return 1;

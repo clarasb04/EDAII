@@ -15,8 +15,10 @@ void afegir_usuaris_a_la_llista();
 User busqueda();
 void crear_llista();
 struct Queue_sol* init_cua();
-void afegir_sol();
+struct Queue_sol* afegir_sol();
+struct Queue_sol* treure_sol();
+usuaris_llista* buscar();
 void enviar_s_amistat();
-
+void mostrarusuari();
 
 #endif //EDAII_MAIN_H

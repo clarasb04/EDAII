@@ -2,19 +2,26 @@
 
 #include <stdio.h>
 #include "main.h"
+#include "play.c"
 #include "string.h"
 
 typedef struct User;
 
-User* new_user(){
+
+
+User* new_user(llista_usuaris* list){
     User* user = (User*)malloc(sizeof(User));
     printf("Introdueix el sobrenom: ");
     scanf(" %s ", user->sobrenom);
+    if(buscar(list,user->sobrenom) != NULL){
+        printf("Introdueix el sobrenom: ");
+        scanf(" %s ", user->sobrenom);
+    }
     printf("Introdueix el nom: ");
     scanf(" %s ", user->name);
     printf("Introdueix el cognom:");
     scanf(" %s ", user->surname);
-    printf("Introdueix el correu de la univeristat: ");
+    printf("Introdueix el correu univeristat: ");
     scanf(" %s ", user->gmail);
     printf("Introdueix la població: ");
     scanf(" %s ", user->poblacio);
@@ -25,51 +32,14 @@ User* new_user(){
     printf("Contesta a les seqüents preguntes per a saber els teus gustos: ");
     crear_gustos(&user);
     printf("PERFECTE T'HAS REGISTRAT");
-    //podriem implementar un diccionari per mirar la gent q és de la mateixa població
-    //falta afegir l usuari al fitxer i a la llista
+    //podriem implementar un diccionari per mirar la gent que és de la mateixa població
+    //falta afegir l'usuari al fitxer i a la llista
     return user;
 }
 
-llista_usuaris* init_list(){
-    llista_usuaris* llista = (llista_usuaris*) malloc(sizeof(usuaris_llista));
-    llista->size = 0;
-    llista->first = NULL;
-    llista->last = NULL;
-    return llista;
-}
 
-void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){
-    usuaris_llista* node = (usuaris_llista*) malloc(sizeof(usuaris_llista));
-    node->user = u;
-    node->next = NULL;
-    node->prev = NULL;
 
-    if (list->first == NULL){
-        list->first = node;
-        list->last = node;
-        node->prev = NULL;
-    }
-    else{
-        list->last->next = node;
-        node->prev = list->last;
-        list->last = node;
-    }
-    list->size++;
-}
-void afegir_usuari(llista_usuaris* list, User* u){
-    //buscar la posició corresponent
-    usuaris_llista comp;
-    int check=0;
-    comp = *list->first;
-    while(check==0){
-        if(strcmp(comp.user->sobrenom, u->sobrenom)==2){
-            check=1;
-        }
-        //comp = comp.next;
-    }
-}
-
-void crear_gustos(User* u){ //que retornem?
+void crear_gustos(User* u){
     int n;
     printf("Respon les següents preguntes per saber els teus gustos: [0] fals o [1] cert");
     printf("T'agraden els nois?");
@@ -89,8 +59,50 @@ void crear_gustos(User* u){ //que retornem?
     u->gustos[4]=n;
 }
 
+//Funció per inicialitzar llista, s'utilitza quan baixem els usuaris del fitxer
+llista_usuaris* init_list(){
+    llista_usuaris* llista = (llista_usuaris*) malloc(sizeof(usuaris_llista));
+    llista->size = 0;
+    llista->first = NULL;
+    llista->last = NULL;
+    return llista;
+}
+// En aquesta funció s'afegueix un usuari a la llista d'usuaris
+void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){
+    usuaris_llista* node = (usuaris_llista*) malloc(sizeof(usuaris_llista));
+    node->user = u;
+    node->next = NULL;
+    node->prev = NULL;
 
+    if (list->first == NULL){
+        list->first = node;
+        list->last = node;
+        node->prev = NULL;
+    }
+    else{
+        list->last->next = node;
+        node->prev = list->last;
+        list->last = node;
+    }
+    list->size++;
+}
 
+/* Aquesta funció no sé perquè està
+void afegir_usuari(llista_usuaris* list, User* u){
+    //buscar la posició corresponent
+    usuaris_llista comp;
+    int check=0;
+    comp = *list->first;
+    while(check==0){
+        if(strcmp(comp.user->sobrenom, u->sobrenom)==2){
+            check=1;
+        }
+        //comp = comp.next;
+    }
+}
+*/
+
+// En aquesta funció posem tots els usuaris del fitxer a una llista
 llista_usuaris* llegir_fitxer(char* filename){
     FILE* f= fopen(filename, "r");
     if (f == NULL){
@@ -109,20 +121,11 @@ llista_usuaris* llegir_fitxer(char* filename){
     }
     fclose(f);
     //reservar espai i afegir l'usuari a la llista
+    return llista;
 }
 
-usuaris_llista* cerca_usuari(llista_usuaris* llista, char sobrenom) {
-    usuaris_llista* current = llista->first;
-    while (current != NULL) {
-        if (current->user->sobrenom == sobrenom) {
-            interactuar();
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;  // L'usuari no ha estat trobat
-}
 
+// En aquesta funció s'omple el fitxer amb la nova llista actualitzada
 void omplir_fitxer(char* filename, llista_usuaris* llista){
     FILE* fp = fopen(filename, "w");
     if (fp == NULL){
@@ -142,3 +145,4 @@ void omplir_fitxer(char* filename, llista_usuaris* llista){
     fclose(fp);
 
 }
+

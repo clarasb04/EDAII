@@ -16,7 +16,7 @@ typedef struct User{
     char sexe;
     int edat;
     int gustos[5];
-    struct Queue_sol* cuasol;
+    struct Queue_sol* cua_sol;
 }User;
 
 //estructures per tots els usuaris de l'apliacacio
