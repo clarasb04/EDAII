@@ -4,6 +4,8 @@
 #define EDAII_ESTRUCTURES_H
 
 #define MAX_LENGHT 30
+#define MAX_LENGHT_TITOL 20
+#define MAX_LENGHT_COS 120
 #define GUSTOS 5
 #include <stdlib.h>
 
@@ -13,13 +15,14 @@ typedef struct User{
     char surname[MAX_LENGHT];
     char gmail[MAX_LENGHT];
     char poblacio[MAX_LENGHT];
-    char sexe;
+    char sexe[1];
     int edat;
     int gustos[5];
     struct Queue_sol* cua_sol;
+    struct publicacio* pub;
 }User;
 
-//estructures per tots els usuaris de l'apliacacio
+//estructures per tots els usuaris de l'aplicacio
 
 typedef struct {
     struct User* user;
@@ -39,6 +42,14 @@ struct Queue_sol{
     int head;
     int tail;
     int size;
+};
+
+//estructura publicacions
+struct publicacio{
+    char titol[MAX_LENGHT_TITOL];
+    char cos[MAX_LENGHT_COS];
+    User* publicador;
+    int num;
 };
 
 #endif //EDAII_ESTRUCTURES_H

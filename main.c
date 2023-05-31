@@ -1,22 +1,24 @@
 #include <stdio.h>
 #include "estructures.h"
 #include "main.h"
-#include "string.h"
-#include "stdlib.h"
+#include "play.h"
+#include "usuari.h"
 
-void interactuar(){
+
+
+void interactuar(llista_usuaris* list, User* user){
     int n;
     printf("Escull una opció: [1]. Enviar sol·licitud d'amistat \n [2]. Gestionar sol·licituds pendents \n [3]. Realitzar una publicació \n [4]. Tornar al menú principal");
-    scanf("%d", n);
+    scanf("%d", &n);
     if (n == 1){
         int a;
-        printf("Vols enviar una sol·licitud concreta [1] o et mostrem perfils que poden encaixar amb el votre prefil[2]?");
-        fscanf(stdin, "%d", a);
+        printf("Vols enviar una sol·licitud concreta [1] o et mostrem perfils que poden encaixar amb el vostre perfil[2]?");
+        fscanf(stdin, "%d", &a);
         if (a==1){
-            enviar_s_amistat();
+            enviar_s_amistat(list, user);
         }
         else if (a==2){
-            enviar_s_amistat_aleatoria();
+            enviar_s_amistat_aleatoria(list, user);
         }
         else{
             printf("resposta incorrecta");
@@ -24,30 +26,30 @@ void interactuar(){
         }
     }
     else if (n == 2){
-        gestionar_s_pendents();
+        gestionar_s_pendents(user->cua_sol);
     }
     else if (n == 3){
-        publicacio();
+        publ(user);
     }
     else if (n == 4){
         printmenu();
     }
     else{
         printf("Tria una opció existent");
-        interactuar();
+        interactuar(list, user);
     }
 }
-void menu(){
+void menu(llista_usuaris* llista, User *user){
     int n;
     n = printmenu();
     if (n==1){
-        new_user();
+        new_user(llista);
     }
     else if (n==2){
-        all_users();
+        all_users(llista);
     }
     else if (n==3){
-        interactuar();
+        interactuar(llista, user);
     }
     else if (n==4){
        printf("Has sortit");
@@ -59,14 +61,15 @@ void menu(){
 }
 int printmenu(){
     int n;
-    printf("Escolliu una opcio:\n [1]. Afegir usuari\n [2]. Listat d'usuaris\n [3]. Interactuar amb un usuari\n [4]. Sortir");
-    scanf("%d", n);
+    printf("Escolliu una opcio:\n [1]. Afegir usuari\n [2]. Listat d'usuaris\n [3]. Interactuar amb un usuari\n [4]. Sortir \n");
+    scanf("%d", &n);
     return n;
 }
 
 int main(){
-    printf("hola !\n");
-    menu();
+    char* nom_fitxer = "usuaris";
+    llista_usuaris* llista = llegir_fitxer(nom_fitxer);
+    User* user;
+    menu(llista, user);
     return 1;
-
 }
