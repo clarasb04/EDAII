@@ -191,3 +191,4 @@ void pub_user(char* filename, User* user){ //s'ha de fer
     //1 Clara UNI avui he_fet_eda
 }
 
+

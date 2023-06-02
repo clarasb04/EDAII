@@ -79,11 +79,11 @@ void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){
         node->prev = NULL;
     }
     else{
-        list->last->next = node;
-        node->prev = list->last;
+        node->prev = &list->last;
+        list->last->next = &node;
         list->last = node;
     }
-    printf("%s\n", list->first->user->name);
+    printf("%s, %s, %s\n", list->first->user->name, list->last->prev, list->last->user->name);
     list->size++;
 }
 
@@ -111,16 +111,17 @@ llista_usuaris* llegir_fitxer(char* filename){ //File* f
     }
     llista_usuaris* llista = init_list();
     char linia[100];
+
     while (fgets(linia, sizeof(linia),f) != NULL){
         User* user = (User*) malloc(sizeof(User));
 
         sscanf(linia, "%s %s %s %s %s %c %d %d %d %d %d", user->sobrenom, user->name, user->surname, user->gmail, user->poblacio, &user->sexe, &user->edat, &user->gustos[0], &user->gustos[1], &user->gustos[2], &user->gustos[3], &user->gustos[4]);
         afegir_usuaris_a_la_llista(llista, user);
-        free(user);
+
 
     }
     fclose(f);
-    //reservar espai i afegir l'usuari a la llista
+    //reservar espai i afegir l'usuari a la llist
     return llista;
 }
 

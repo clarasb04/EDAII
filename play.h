@@ -22,4 +22,5 @@ void guardar_publ(char* filename, User* user);
 void mostrar_publ(char* filename);
 void pub_user(char* filename, User* user);
 
+
 #endif //EDAII_PLAY_H

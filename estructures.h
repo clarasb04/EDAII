@@ -51,5 +51,9 @@ struct publicacio{
     User* publicador;
     int num;
 };
+typedef struct Pila{
+    int top;
+    User* user;
+}Pila;
 
 #endif //EDAII_ESTRUCTURES_H

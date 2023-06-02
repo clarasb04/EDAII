@@ -69,6 +69,7 @@ int printmenu(){
 int main(){
     char* nom_fitxer = "usuaris";
     llista_usuaris* llista = llegir_fitxer(nom_fitxer);
+
     User* user;
     menu(llista, user);
     return 1;
