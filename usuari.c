@@ -2,11 +2,12 @@
 #include "main.h"
 #include "play.h"
 #include "usuari.h"
+#include "publcacions.h"
 #include <stdio.h>
 #include "string.h"
+#include <stdbool.h>
 
-
-void crear_gustos(User* u){
+void crear_gustos(User* u){   //revisada
     int n;
     printf("Respon les seguents preguntes per saber els teus gustos: [0] fals o [1] cert\n");
     printf("T'agraden els nois?\n");
@@ -27,48 +28,42 @@ void crear_gustos(User* u){
 }
 
 
-User* new_user(llista_usuaris* list){
+User* new_user(llista_usuaris* list){ //revisada
     User* user = (User*)malloc(sizeof(User));
     printf("Introdueix el sobrenom: \n");
     scanf("%s", user->sobrenom);
-    if(buscar(list,user->sobrenom) != NULL){
-        printf("Introdueix el sobrenom: \n");
+    while (buscar(list,user->sobrenom) != NULL){
+        printf("Sobrenom ja utilitzat, introdueix el sobrenom: \n");
         scanf("%s", user->sobrenom);
     }
-    printf("Introdueix el nom:");
+    printf("Introdueix el nom: ");
     scanf("%s", user->name);
-    printf("Introdueix el cognom:");
+    printf("Introdueix el cognom: ");
     scanf("%s", user->surname);
-    printf("Introdueix el correu de la universitat:");
+    printf("Introdueix el correu de la universitat: ");
     scanf("%s", user->gmail);
-    while(comprovar_correu(user)==0){
-        printf("El correu introduit no és valid");
+    while(!comprovar_correu(user)){
+        printf("El correu introduit no es valid");
         scanf("%s", user->gmail);
     }
-    printf("Introdueix la poblacio:");
+    printf("Introdueix la poblacio: ");
     scanf("%s", user->poblacio);
-    printf("Introdueix el sexe M o F:");
-    scanf("%s", user->sexe);
-    printf("Introdueix l'edat:");
+    printf("Introdueix el sexe M(0) o F(1): ");
+    scanf("%d", &user->sexe);
+    printf("Introdueix l'edat: ");
     scanf("%d", &user->edat);
     crear_gustos(user);
     printf("PERFECTE T'HAS REGISTRAT\n");
-    afegir_usuaris_a_la_llista(list, user); //fins aqui està comprovat i funciona
+    afegir_usuaris_a_la_llista(list, user);
     return user;
 }
 
 
 //Funció per inicialitzar llista, s'utilitza quan baixem els usuaris del fitxer
-llista_usuaris* init_list(){
-    llista_usuaris* llista = (llista_usuaris*) malloc(sizeof(usuaris_llista));
-    llista->size = 0;
-    llista->first = NULL;
-    llista->last = NULL;
-    return llista;
-}
+
 // En aquesta funció s'afegeix un usuari a la llista d'usuaris
-void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){
-    usuaris_llista* node = (usuaris_llista*) malloc(sizeof(usuaris_llista)); //canviar el tamany llista i no usuari
+void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){ //revisada
+    usuaris_llista* node = (usuaris_llista*) malloc(sizeof(usuaris_llista));
     node->user = u;     //inicialitzar usuari i despres posarlo a la llista
     node->next = NULL;
     node->prev = NULL;
@@ -76,92 +71,90 @@ void afegir_usuaris_a_la_llista(llista_usuaris* list, User* u){
     if (list->first == NULL){
         list->first = node;
         list->last = node;
-        node->prev = NULL;
     }
     else{
-        node->prev = &list->last;
-        list->last->next = &node;
+        list->last->next = node;
+        node->prev = list->last;
         list->last = node;
+
     }
-    printf("%s, %s, %s\n", list->first->user->name, list->last->prev, list->last->user->name);
     list->size++;
+    bubbleSort(list);
+    //init_cua(u);
+    //init_cua(node->user->cua_amics);
 }
 
-/* Funció per implementar funció d'ordenació
-void afegir_usuari(llista_usuaris* list, User* u){
-    //buscar la posició corresponent
-    usuaris_llista comp;
-    int check=0;
-    comp = *list->first;
-    while(check==0){
-        if(strcmp(comp.user->sobrenom, u->sobrenom)==2){
-            check=1;
+//Funció per implementar funció d'ordenació bubbleSort
+void bubbleSort(llista_usuaris* llista) { //revisada
+    if (llista == NULL || llista->size <= 1) {
+        return;  // No cal ordenar una llista buida o amb un únic element
+    }
+
+    bool sorted = false; // assumim que primer està desordenat
+    while (!sorted) { //per tant, entrarem al while
+        sorted = true; // assumim que en aquest moment està ordenat
+        usuaris_llista* current = llista->first; //punter per al primer user de la llista
+        usuaris_llista* next = current->next; //punter per al segon user de la llista
+        while (next != NULL) { //fins que no arribem a l'últim user no sortirà d'aquest while
+            // Compara els sobrenoms dels dos usuaris per determinar l'ordre
+            if (strcmp(current->user->sobrenom, next->user->sobrenom) > 0) { //en aquest cas l'ordre serà incorrecte
+                User* temp = current->user; //fem servir una variable local
+                current->user = next->user; //els intercanviem
+                next->user = temp;
+                sorted = false;  // Marquem que s'ha realitzat un intercanvi
+            }
+            //movem els dos usuaris a la dreta de la llista
+            current = next;
+            next = next->next;
         }
-        //comp = comp.next;
     }
 }
-*/
+
 
 // En aquesta funció posem tots els usuaris del fitxer a una llista
-llista_usuaris* llegir_fitxer(char* filename){ //File* f
+void llegir_fitxer (char* filename, llista_usuaris* llista){ //comprovat
     FILE* f= fopen(filename, "r");
     if (f == NULL){
         printf("No s'ha pogut entrar al fitxer");
-        return NULL;
+        return;
     }
-    llista_usuaris* llista = init_list();
     char linia[100];
 
     while (fgets(linia, sizeof(linia),f) != NULL){
-        User* user = (User*) malloc(sizeof(User));
-
-        sscanf(linia, "%s %s %s %s %s %c %d %d %d %d %d", user->sobrenom, user->name, user->surname, user->gmail, user->poblacio, &user->sexe, &user->edat, &user->gustos[0], &user->gustos[1], &user->gustos[2], &user->gustos[3], &user->gustos[4]);
-        afegir_usuaris_a_la_llista(llista, user);
-
-
+        User* usuari = (User * ) malloc(sizeof(User));
+        sscanf(linia, "%s %s %s %s %s %d %d %d %d %d %d %d", usuari->sobrenom, usuari->name, usuari->surname, usuari->gmail, usuari->poblacio, &usuari->sexe, &usuari->edat, &usuari->gustos[0], &usuari->gustos[1], &usuari->gustos[2], &usuari->gustos[3], &usuari->gustos[4]);
+        afegir_usuaris_a_la_llista(llista, usuari);
     }
     fclose(f);
-    //reservar espai i afegir l'usuari a la llist
-    return llista;
+
 }
 
 
 // En aquesta funció s'omple el fitxer amb la nova llista actualitzada
-void omplir_fitxer(char* filename, llista_usuaris* llista){
-    FILE* fp = fopen(filename, "w"); //mirar com s'ha d'obrir
+void omplir_fitxer(char* filename, llista_usuaris* llista){ //revisada
+    FILE* fp = fopen(filename, "w");
     if (fp == NULL){
         printf("No s'ha pogut obrir el fitxer");
         return;
     }
     usuaris_llista* current = llista->first;
     while(current != NULL){
-        fprintf(fp, "%s %s %s %s %s %c %d", current->user->sobrenom, current->user->name, current->user->surname, current->user->gmail, current->user->poblacio, current->user->sexe, current->user->edat);
-
-        for (int i = 0; i < 5; i++){
-            fprintf(fp, "%d", current->user->gustos[i]);
-        }
-        fprintf(fp, "\n");
+        fprintf(fp, "%s %s %s %s %s %d %d %d %d %d %d %d\n", current->user->sobrenom, current->user->name, current->user->surname, current->user->gmail, current->user->poblacio, current->user->sexe, current->user->edat, current->user->gustos[0], current->user->gustos[1], current->user->gustos[2], current->user->gustos[3], current->user->gustos[4]);
         current = current->next;
     }
     fclose(fp);
 
 }
 
+int comprovar_correu(User* user){ //revisat
+    const char* domain = "estudiant.upf.edu";
 
-
-int comprovar_correu(User* user){
-    char* correu_u = user->gmail;
-    char* comp = "estudiant.upf.edu";
-    char* temp;
-    for (int i=0; i<MAX_LENGHT; i++){
-        if (strcmp(correu_u, "@")==0){
-            for (int j=0; j<(MAX_LENGHT-i); j++){
-                temp[j] = correu_u[i+j];
-            }
-            if (strcmp(temp,comp)==0){
-                return 1;
-            }
-        }
+    // Find the @ symbol in the email address
+    const char* atSymbol = strchr(user->gmail, '@');
+    if (atSymbol == NULL) {
+        return 0;
     }
-    return 0;
+
+    const char* emailDomain = atSymbol + 1;
+    return strcmp(emailDomain, domain) == 0;
 }

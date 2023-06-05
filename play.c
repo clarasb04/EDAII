@@ -2,81 +2,158 @@
 #include "main.h"
 #include "play.h"
 #include "usuari.h"
+#include "publcacions.h"
 #include <stdio.h>
-#define MAX_SOL 10
-#define MAX_LENGHT 30
-#define MAX 200
+#include <string.h>
+#include <stdbool.h>
 
-void enviar_s_amistat_aleatoria(llista_usuaris* llista, User* user){ //s'ha de canviar s'ha d'utilitzar una pila
-    char a;
-    printf("Les comandes son [S] voleu enviar amistat,\n [N] no voleu eviar amistat,\n [E] sortir ");
-    usuaris_llista* current = llista->first;
-    while (current != NULL) {
-        mostrarusuari(current->user);
-        fscanf(stdin, "%c", &a);
-        if (a =='S'){
-            afegir_sol(&current->user->cua_sol, &user);
+#define MAX_SOL 10
+
+#define MAX_SIZE 10
+
+void enviar_s_amistat_aleatoria(llista_usuaris* llista, User* user){
+    Pila p=init_pila();
+    for(int i=0; i<3; i++){
+        int n = rand() % 20;
+        User* u = usuari_aleatori(n, llista);
+        push(p, u);
+    }
+
+    printf("Les comandes son [0] no voleu enviar amistat,\n [1] si voleu eviar amistat\n ");
+    for(int j=0; j<3; j++){
+        User* U = top(p); //imprimeix mal els usuaris
+        mostrarusuari(U);
+        pop(p);
+        int a;
+        scanf("%d", &a);
+        while((a!=0)&&(a!=1)){
+            printf("Opció incorrecta\n");
+            printf("Les comandes son [S] voleu enviar amistat,\n [N] no voleu eviar amistat\n");
+            scanf("%d", &a);
         }
-        else if (a =='N'){
-            current = current->next;
-        }
-        else if (a == 'E'){
-            menu(llista, user);
-            break;
-        }
-        else{
-            printf("Opció incorrecta");
-            printf("Les comandes son [S] voleu enviar amistat,\n [N] no voleu eviar amistat,\n [E] sortir ");
-            fscanf(stdin, "%c", a);
+        if (a == 1){
+            afegir_sol(user, U);
         }
     }
+}
+User* usuari_aleatori(int num, llista_usuaris* llista){
+    int posicio=0;
+    usuaris_llista* node_actual = llista->first;
+    while(node_actual!=NULL){
+        if (posicio==num){
+            return node_actual->user;
+        }
+        node_actual=node_actual->next;
+        posicio++;
+    }
+    return NULL;
 }
 
 void enviar_s_amistat(llista_usuaris* llista, User* user){ //enviar sol·licitud a un usuari concret
     //user és l'usuari que està enviant la sol·licitud
     char a[MAX_LENGHT];
-    printf("Introdueix el sobrenom de la nova solicitud d'amistat que vols enviar");
+    printf("Introdueix el sobrenom de la nova solicitud d'amistat que vols enviar: ");
     scanf( "%s", a);
     if (buscar(llista,a) != NULL){
-        User* u = buscar(llista,a); //u és l'usuari al qual se li sol·licita
-        afegir_sol(u->cua_sol,user);
+        User* sol = buscar(llista,a); //u és l'usuari al qual se li sol·licita
+        afegir_sol(user,sol);
+        printf("Hola");
+    }
+    else printf("Usuari no trobat\n");
+}
+
+void gestionar_s_pendents(User* user, User* sol){
+    char a;
+    int i = user->cua_sol->head;
+
+    if (cua_buida(user->cua_sol)){
+        printf("No hi ha sol.licituds pendents.");
+        return;
+    }
+    while (i < user->cua_sol->tail){
+        printf("Si vols acceptar la sol.licitud [S], si no vols acceptar-la [N], si vols sortir [E]");
+        scanf("%c", &a);
+
+        if (a =='S') {
+            //afegir_amic(user, sol);
+            treure_sol(user);
+        }
+        else if (a == 'N'){
+            treure_sol(user);
+        }
+        else if (a == 'E'){
+            printf("Opcio incorrecta.");
+        }
+        else{
+            break;
+        }
+
+        i = (i + 1) % user->cua_sol->size;
+    }
+    //Processem l'última sol·licitud
+    if (a =='S') {
+        //afegir_amic(user->cua_amics, cua[i].user_sol);
+        treure_sol(user);
+    }
+    else if (a == 'N'){
+        treure_sol(user);
+    }
+    else if (a == 'E'){
+        printf("Opcio incorrecta.");
     }
 }
 
-void gestionar_s_pendents(struct Queue_sol* cua){
-    char a;
-    for (int i = cua->head; i<cua->size; i++){
-        printf("Si vols acceptar la sol·licitud [S] si no vols[N]");
-        scanf("%c", &a);
-        if (a=='S') {
-            //funció per afegir amic
-            treure_sol(cua);
-        }
-        else if (a == 'N'){
-            treure_sol(cua);
-        }
-
+void afegir_sol(User* user, User* sol){
+    printf("Adeu");
+    if ((user->cua_sol->tail + 1) % user->cua_sol->size == user->cua_sol->head){
+        printf("La cua de sol·licituds està plena.\n");
+        return;
     }
+    int new_tail = (user->cua_sol->tail + 1) % user->cua_sol->size;
+
+    user->cua_sol->u[user->cua_sol->tail] = *sol;
+    user->cua_sol->tail = new_tail;
+    printf("Sol·licitud afegida a la cua de sol·licituds.\n");
 }
 
 //Funció per inicialitzar una cua on es posaran les sol·licituds
-struct Queue_sol* init_cua(){
-  struct Queue_sol* cua = (struct Queue_sol*)malloc(sizeof(struct Queue_sol));
-  cua->usuer_sol = (User*) malloc(sizeof(User));
-  cua->head=1;
-  cua->tail=1;
-  cua->size=0;
-  return cua;
+void init_cua(User* user){
+    user->cua_sol = (Queue_sol*)malloc(sizeof(Queue_sol));
+    user->cua_sol->u = NULL;
+    user->cua_sol->head = -1;
+    user->cua_sol->tail = -1;
+    user->cua_sol->size = MAX_SOL;
+    user->cua_amics=(Queue_sol*)malloc(sizeof(Queue_sol));
+    user->cua_amics->u = NULL;
+    user->cua_amics->head=-1;
+    user->cua_amics->tail=-1;
+    user->cua_amics->size = MAX_SOL;
 }
 int cua_buida(struct Queue_sol* cua){
     return (cua->size == 0);
 }
-struct Queue_sol* afegir_sol(struct Queue_sol* cua, User* user){
-    if (cua->size > MAX_SOL){
-        printf("Ja hi ha un màxim de sol·licituds");
+
+
+struct Queue_sol* treure_sol(User* u){
+    if (cua_buida(u->cua_sol)){
+        printf("No hi ha sol·licituds");
     }
     else{
-        cua->usuer_sol[cua->tail] = *user;
+        u->cua_sol->head = u->cua_sol->head + 1;
+        if (u->cua_sol->head > MAX_SOL){
+            u->cua_sol->head = 0;
+        }
+        u->cua_sol->size = u->cua_sol->size - 1;
+    }
+    return u->cua_sol;
+}
+
+struct Queue_sol* afegir_amic(struct Queue_sol* cua, User* user){
+    if (cua->size > MAX_SOL){
+        printf("Ja te un maxim d'amics");
+    }
+    else{
+        //cua->user_sol[cua->tail] = *user;
         cua->tail = cua->tail + 1;
         if (cua->tail > MAX_SOL){
             cua->tail = 1;
@@ -86,35 +163,23 @@ struct Queue_sol* afegir_sol(struct Queue_sol* cua, User* user){
     return cua;
 }
 
-struct Queue_sol* treure_sol(struct Queue_sol* cua){
-    if (cua_buida(cua)){
-        printf("No hi ha sol·licituds");
-    }
-    else{
-        cua->head = cua->head + 1;
-        if (cua->head > MAX_SOL){
-            cua->head = cua->head + 1;
-        }
-        cua->size = cua->size - 1;
-    }
-    return cua;
-}
-
-User* buscar(llista_usuaris* llista, char* sobrenom){
+User* buscar(llista_usuaris* llista, char* sobrenom){ //comprovat
     usuaris_llista* current = llista->first;
     while (current != NULL) {
-        if (current->user->sobrenom == sobrenom) {
+        if (strcmp(current->user->sobrenom, sobrenom) == 0) {
             return current->user;
         }
         current = current->next;
+
     }
     return NULL;  // L'usuari no ha estat trobat
 }
 
 
-void mostrarusuari(User* u){
-    printf("%s %s %d %c", u->sobrenom, u->name, u->edat, u->sexe);
-
+void mostrarusuari(User* u){ //comprovat
+    printf("%s, %s %s, %d anys\n", u->sobrenom, u->name, u->surname, u->edat);
+    if(u->sexe==0) printf("es un noi\n");
+    if (u->sexe==1) printf("es una noia\n");
     for(int i = 0; i < 5; i++){
         if (i == 0){
             printf("Li agraden els nois: ");
@@ -135,60 +200,59 @@ void mostrarusuari(User* u){
         else if (u->gustos[i] == 1) printf("Si\n");
     }
 }
-void all_users(llista_usuaris* list){
+void all_users(llista_usuaris* list){ //comprovat
     usuaris_llista* current = list->first;
     while (current != NULL) {
         mostrarusuari(current->user);
-        current = &current->next;
+        current = current->next;
     }
 }
 
-//s'ha d'acabar de fer tot lo de les publicacions
-void publ(User* user){
-    if (user->pub->num==NULL) user->pub->num=0;
-    printf("El titular de la teva publacació (una paraula en majuscules)");
-    scanf("%s",user->pub[user->pub->num+1].titol);
-    printf("Cos de la publicacio maxim 120 paraules");
-    scanf("%s", user->pub[user->pub->num+1].cos);
-    user->pub->num+=1;
-    char* nom_fitxer = "publiacions";
-    guardar_publ(nom_fitxer, user);
+
+
+//PILA
+
+Pila init_pila(){
+    Pila p;
+    p.top = -1;
+    p.size=MAX_SIZE;
+    p.users= malloc(MAX_SIZE*sizeof(User));
+    return p;
 }
 
-void guardar_publ(char* filename, User* user){
-    FILE* f = fopen(filename, "w");
-    if (f == NULL){
-        printf("No s'ha pogut obrir el fitxer");
-        return;
+bool is_full(Pila p){
+    return (p.top == MAX_SIZE);
+}
+
+bool is_empty(Pila p){
+    return (p.top == 0);
+}
+
+Pila push(Pila p, User* u){
+    if (!is_full(p)){
+        p.top = p.top + 1;
+        p.users[p.top] = *u;
+    }else{
+        printf("Pila plena");
     }
-    fprintf(f, "%d %s %s %s", user->pub->num, user->name, user->pub[user->pub->num-1].titol, user->pub[user->pub->num-1].cos);
-    fclose(f);
+    return p;
 }
 
-void mostrar_publ(char* filename){
-    char a[MAX];
-    FILE* f = fopen(filename, "r");
-    if (f == NULL){
-        printf("No s'ha pogut entrar al fitxer");
-        return;
+Pila pop(Pila p){
+    if (!is_empty(p)){
+        p.top = p.top - 1;
     }
-    while(fgets(a, MAX, filename)!=NULL){
-        printf("%s", a);
-    };
-}
-
-void pub_user(char* filename, User* user){ //s'ha de fer
-    char a[MAX];
-    FILE* f = fopen(filename, "r");
-    if (f == NULL){
-        printf("No s'ha pogut entrar al fitxer");
-        return;
+    else{
+        printf("La pila està buida");
     }
-    //while(){
-     //   fscanf(f, "%d, %s, %s, %s", user->pub->num, user->sobrenom, user->pub->titol, user->pub->cos);
-    //}
-
-    //1 Clara UNI avui he_fet_eda
+    return p;
 }
 
-
+User* top(Pila p){
+    if (!is_empty(p)){
+        return &p.users[p.top];
+    }
+    else{
+        printf("Pila buida");
+    }
+}

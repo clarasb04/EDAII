@@ -3,10 +3,12 @@
 #ifndef EDAII_ESTRUCTURES_H
 #define EDAII_ESTRUCTURES_H
 
-#define MAX_LENGHT 30
+#define MAX_LENGHT 50
 #define MAX_LENGHT_TITOL 20
 #define MAX_LENGHT_COS 120
 #define GUSTOS 5
+#define CAPACITY 100
+
 #include <stdlib.h>
 
 typedef struct User{
@@ -15,14 +17,15 @@ typedef struct User{
     char surname[MAX_LENGHT];
     char gmail[MAX_LENGHT];
     char poblacio[MAX_LENGHT];
-    char sexe[1];
+    int sexe;
     int edat;
-    int gustos[5];
+    int gustos[GUSTOS];
     struct Queue_sol* cua_sol;
+    struct Queue_sol* cua_amics;
     struct publicacio* pub;
 }User;
 
-//estructures per tots els usuaris de l'aplicacio
+//estructures per tots els usuaris de l'aplicació
 
 typedef struct {
     struct User* user;
@@ -36,13 +39,13 @@ typedef struct{
     usuaris_llista* last;
 }llista_usuaris;
 
-//estructura solisituds d'amistats
-struct Queue_sol{
-    User* usuer_sol;
+//estructura sol·lisituds d'amistats
+typedef struct Queue_sol{
+    User* u;
     int head;
     int tail;
     int size;
-};
+}Queue_sol;
 
 //estructura publicacions
 struct publicacio{
@@ -53,7 +56,21 @@ struct publicacio{
 };
 typedef struct Pila{
     int top;
-    User* user;
+    int size;
+    User* users;
 }Pila;
+
+//estructura diccionari
+typedef struct node{
+    struct node* next;
+    char key[MAX_LENGHT_TITOL];
+    int count;
+}node;
+
+struct hash_table{
+    struct node* array[CAPACITY]; //mida dicionari
+    int size;
+
+};
 
 #endif //EDAII_ESTRUCTURES_H
