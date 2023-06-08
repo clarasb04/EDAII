@@ -10,5 +10,6 @@ void llegir_fitxer(char* filename, llista_usuaris * llista);
 void omplir_fitxer(char* filename, llista_usuaris* llista);
 int comprovar_correu(User* user);
 void bubbleSort(llista_usuaris* llista);
+void imprimir_amics(User* u);
 
 #endif //EDAII_USUARI_H

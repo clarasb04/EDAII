@@ -8,6 +8,7 @@
 #define MAX_LENGHT_COS 120
 #define GUSTOS 5
 #define CAPACITY 100
+#define MAX_SIZE 10
 
 #include <stdlib.h>
 
@@ -22,7 +23,8 @@ typedef struct User{
     int gustos[GUSTOS];
     struct Queue_sol* cua_sol;
     struct Queue_sol* cua_amics;
-    struct publicacio* pub;
+    struct publicacio* pub[5];
+    int num_pub;
 }User;
 
 //estructures per tots els usuaris de l'aplicació
@@ -39,9 +41,9 @@ typedef struct{
     usuaris_llista* last;
 }llista_usuaris;
 
-//estructura sol·lisituds d'amistats
+//estructura cua (sol·licituds d'amistats)
 typedef struct Queue_sol{
-    User* u;
+    User* u[MAX_SIZE];
     int head;
     int tail;
     int size;
@@ -51,13 +53,11 @@ typedef struct Queue_sol{
 struct publicacio{
     char titol[MAX_LENGHT_TITOL];
     char cos[MAX_LENGHT_COS];
-    User* publicador;
-    int num;
 };
 typedef struct Pila{
     int top;
     int size;
-    User* users;
+    User* users[MAX_SIZE];
 }Pila;
 
 //estructura diccionari
@@ -70,7 +70,6 @@ typedef struct node{
 struct hash_table{
     struct node* array[CAPACITY]; //mida dicionari
     int size;
-
 };
 
 #endif //EDAII_ESTRUCTURES_H
