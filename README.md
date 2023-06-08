@@ -29,13 +29,15 @@ La llista l’hem implementat per a guardar en un mateix lloc tots els usuaris e
 Per a explicar el funcionament de la Double Linked List, hem de fer un previ amb la definició d’usuari i la possible navegació formant part de la xarxa.
 Per tal de definir un usuari hem utilitzat una estructura typedef la qual té la següent forma:
 
-![imatge1](EDAII/Imatges informe/1.png)
+![imatge1](/Imatges_informe/1.png)
+
+#### IMATGE
 
 On sobrenom és el nickname escollit per l’usuari, guardat en un array de char (string); name i surname són el nom i el cognom de l’usuari, també guardats en forma de string; gmail és el correu electrònic amb el que es registra l’usuari, el domini del qual serà comprovat posteriorment, guardat en un array de char; població és la localitat de l’usuari guardat com a string; sexe és el gènere de l’usuari, guardat com a enter 1 si és home i 0 si és dona; edat és un enter que representa l’edat de l’usuari; gustos es tracta d’un array d’enters els quals representen les respostes del qüestionari que es realitza a l’entrar a l’aplicació, 1 en cas afirmatiu, 0 si la resposta és “no”; tant cua_sol com cua_amics són enllaços a les estructures per a implementar la Cua (queue), explicat més endavant; finalment, pub és un enllaç a la estructura publicació, per a poder controlar i estructurar les diferents publicacions que fagi cada usuari. 
 
 L’estructura per a definir la Linked List és la següent:
 
-# IMATGE
+#### IMATGE
 
 Així tenim situats el primer i últim usuari de la llista (per a saber l’espai de memòria a reservar necessari,) i la seva mida (size).
 
