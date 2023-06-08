@@ -31,19 +31,17 @@ Per tal de definir un usuari hem utilitzat una estructura typedef la qual té la
 
 ![imatge1](/Imatges_informe/1.png)
 
-#### IMATGE
-
 On sobrenom és el nickname escollit per l’usuari, guardat en un array de char (string); name i surname són el nom i el cognom de l’usuari, també guardats en forma de string; gmail és el correu electrònic amb el que es registra l’usuari, el domini del qual serà comprovat posteriorment, guardat en un array de char; població és la localitat de l’usuari guardat com a string; sexe és el gènere de l’usuari, guardat com a enter 1 si és home i 0 si és dona; edat és un enter que representa l’edat de l’usuari; gustos es tracta d’un array d’enters els quals representen les respostes del qüestionari que es realitza a l’entrar a l’aplicació, 1 en cas afirmatiu, 0 si la resposta és “no”; tant cua_sol com cua_amics són enllaços a les estructures per a implementar la Cua (queue), explicat més endavant; finalment, pub és un enllaç a la estructura publicació, per a poder controlar i estructurar les diferents publicacions que fagi cada usuari. 
 
 L’estructura per a definir la Linked List és la següent:
 
-#### IMATGE
+![imatge1](/Imatges_informe/2.png)
 
 Així tenim situats el primer i últim usuari de la llista (per a saber l’espai de memòria a reservar necessari,) i la seva mida (size).
 
 Per a desplaçar-nos al llarg de tota la llista tenim:
 
-# IMATGE
+![imatge1](/Imatges_informe/3.png)
 
 L’estructura usuari és un puter que serà cada usuari que hi haurà a la linked list, i amb els enllaços next i prev podem realitzar el desplaçament.
 
@@ -61,7 +59,7 @@ Una altra funció on hem implementat la pila, ha estat per mostrar les publicaci
 
 L’estructura que hem utilitzat per la pila, ha estat la següent: dos enters, un que marca el top (l’últim element de la pila, és a dir, per on s’afegeixen i extreuen els valors) i la mida de la pila. També conté un punter d’user de llargada màxima de la pila. La seva implementació ha estat com la d’una array simple.
 
-# IMATGE
+![imatge1](/Imatges_informe/4.png)
 
 Primerament hem inicialitzat la pila on l’hem creat i hem donat valor als diferents paràmetres (top -1 i size 10), hem codificat i implementat les funcions bàsiques d’una pila: la funció TOP, que proporciona l’últim usuari que ha entrat a la pila , la funció PUSH, que serveix per afegir un usuari a la pila, POP que serveix per treure l’últim usuari que ha estat introduit, IS_EMPTY per comprovar si està buida i IS_FULL per comprovar si està plena.
 
@@ -77,7 +75,7 @@ La implementació de la cua l’hem utilitzat per controlar les amistats, afegir
 
 L’estructura que hem utilitzat per la cua ha estat un punter user a una array d’usuaris amb un màxim, que igual que en la pila té un màxim de 10 usuaris, i tres enters, un head per marcar la primera posició de la cua, un tail per marcar l'última posició ocupada de la cua per així, en el moment que tail > head, poder saber si la cua està plena, i la mida d’aquesta cua.
 
-# IMATGE
+![imatge1](/Imatges_informe/5.png)
 
 També hem inicialitzat les dues cues (una per les amistats i l’altre per les sol·licituds d’amistat) que estructuren la informació de cada usuari. De la mateixa manera que hem treballat amb la pila, hem creat les funcions bàsiques: la funció CUA_BUIDA, per a comprovar si la cua està buida, la funció CUA_PLENA per a comprovar si la cua està plena, AFEGIR, per a afegir contingut a la cua, i TREURE per a treure el primer usuari afegit a la cua.
 
@@ -93,7 +91,7 @@ Estructura: estructures.h línia 45-50; funcions principals: play.c línia 113-1
 
 Hem utilitzat l’algoritme de LinearSearch en una de les funcions del nostre codi. Aquesta funció s’encarrega de buscar el punter a un usuari a partir del sobrenom d’aquest i l’hem fet servir en diferents parts de codi, en diverses funcion, principalment per comprovar si un usuari existeix.
 
-# IMATGE
+![imatge1](/Imatges_informe/6.png)
 
 El LinearSearch opera de la següent manera: es situa en el primer element (d’índex 0) de la llista i comprova si és l’element buscat, en cas afirmatiu, retorna l’índex de la posició en la que es troba l’element, en cas negatiu, accedeix a la següent posició de la llista (suma u al valor de l’índex). Repeteix aquest procediment fins arribar al final de la llista, i, en cas de que un cop recorreguda tota la llista no trobi l’element buscat, retorna un missatge comunicant-ho.
 
@@ -109,7 +107,7 @@ Funció: play.c línia 159-169
 
 L’algoritme que hem implementat en el nostre codi és el BubbleSort que l’hem utiltzat per ordenar el
 
-# IMATGE
+![imatge1](/Imatges_informe/7.png)
 
 L’algoritme BubbleSort actua de la següent manera:
 
@@ -129,7 +127,7 @@ Hem implementat un Diccionari que funciona amb una Taula Hash per tal de poder t
 
 Per poder codificar el diccionari hem creat dues estructures. L’estructura node dels diferents elements del diccionari conté la clau, el valor de cada clau i un punter cap al següent node. L’altra estructura hash_table és per tenir la mida del diccionari i un punter capa els diferents nodes del diccionari, com si es tractés d’una “array”. 
 
-# IMATGE
+![imatge1](/Imatges_informe/8.png)
 
 Llavors, hem creat les funcions bàsiques que necessita un diccionari que està implementat amb una hash table. La funció HASH per determinar la posició on va cada node depenen de la seva clau, CREATE_NODE per crear l’espai per un node, ADD_DICT per afegir les diferents claus i en el cas de que ja existeixin incrementar-li el valor, per tal de portar un recompte per saber quina paraula és la més comú entre les publicacions, i la funció TOP_10 que, com hem comentat anteriorment, mostra el rànquing dels 10 temes més publicats. 
 
@@ -165,14 +163,13 @@ Els objectius desitjables que hem realitzat han estat els següents:
 
 L’hem implementat en el moment d’obtenir les dades dels usuaris les quals estan guardades en documents de text (.txt). Aquestes dades són les de registre de sessió dels usuaris (usuari-contrasenya), les dades de l’enquesta inicial (de l’estructura usuari) i el mur de publicacions realitzades per cada usuari. 
 
-
-# IMATGE
+![imatge1](/Imatges_informe/9.png)
 
 Exemple d’un arxiu .txt de lectura
 
 Per tal de poder llegir els documents hem utilitzat funcions com la següent:
 
-# IMATGE
+![imatge1](/Imatges_informe/10.png)
 
 Amb la qual comprovem primer si el fitxer s’ha obert correctament o no i posteriorment emmagatzemem les dades de cadascun dels usuaris a la llista, estructurant-les amb user.
 
@@ -261,27 +258,27 @@ Pel que fa al maneig dels possibles errors dels usuaris, durant l’execució de
 
 #### Data model design
 
-# IMATGE
+![imatge1](/Imatges_informe/11.png)
 
 #### Dataset description and processing 
 
 Les dades de la xarxa social es guarden en fitxers .txt. Aquests fitxers segueixen una estructura exacte que el codi, quan s’inicia la xarxa social, pugui llegir correctament. Primer de tot, tenim un fitxer que conté la llista d’usuaris i tota la informació necessària d’aquests. 
 
-# IMATGE
+![imatge1](/Imatges_informe/12.png)
 
 Imatge de la llista d’usuaris en el fitxer usuaris.txt
 
 Amb la funció llegir_fitxer() anem recorrent el fitxer i obtenint les dades dels usuaris. El que fa el codi és obtenir tota la linia de dades (cada linia correspon a un usuari), i després anem separant les dades que anem llegint a les diferents variables de la llista i de l’usuari. La funció crida a una altre que s’encarrega d’afegir aquest usuari a la llista i modificar tots els paràmetres pertinents. El codi d’aquesta funció és:
 
-# IMATGE
+![imatge1](/Imatges_informe/13.png)
 
 Si passem a la llegida de dades de les publicacions ens trobem un fitxer amb una estructura un amica més complexa. Aquest fitxer s’estructura de la manera següent, primer de tot trobem l’usuari del qual anem a llegir les publicacions. Un cop passada aquesta línia trobem una lletra que ens diu si hi ha publicacions o no en aquella posició, és a dir, tindrem cinc N o F, ja que un usuari pot tenir fins a 5 publicacions . Si trobem una F es que hi ha publicació i si trobem una N significa que no trobem cap publicació en aquella posició i que hem de seguir llegint. En cas que trobem una F significa que a les línies següents hi trobarem primer el títol i després el cos de la publicació. El fitxer acaba sent així:
 
-# IMATGE
+![imatge1](/Imatges_informe/14.png)
 
 La funció que llegeix aquest fitxer (llegir_fitx()) primer llegeix el usuari i amb la funció buscar() troba el punter a aquest usuari, per això és important que aquesta funció es cridi després de la funció que crea la llista. Després busca la F o N que indiqui si ha de llegir una publicació o no. En cas que si entra dins un if i es busca el títol i el cos de la publicació en el fitxer. En cas que no la funció seguirà llegint les N que faltin fins passar al següent usuari. Això ho repetirà fins a acabar els usuaris. El codi d’aquesta funció és el següent:
 
-# IMATGE
+![imatge1](/Imatges_informe/15.png)
 
 Amb aquestes dos funcions ja llegim les dades que tenim guardades en fitxers. Pel procés contrari, quan hem de guardar-les de tornada als fitxers, tenim dos funcions que accedeixen de nou al fitxer, però en el mode escriptura i tornen a escriure totes les dades als fitxers seguint aquestes estructures per poder llegir-ho correctament. Les funcions que s’encarreguen d’això són: guardar_publ() per les publicacions i omplir_fitxer() pels usuaris. 
 
